@@ -7,5 +7,5 @@ $allowedTypes = [
     "image/png"  => "png",
 ];
 
-$uploaddir = "$doc_root/uploads/";
+$uploaddir = "uploads/";
 ?>

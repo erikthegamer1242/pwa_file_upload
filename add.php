@@ -28,18 +28,18 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         die("Only JPG and PNG files are allowed");
     }
 
-    $uploadfile = $uploaddir . basename($file['name']);
+    $img_file_name = strtolower(str_replace(" ", "_", $img_name));
+
+    $uploadfile = $GLOBALS['uploaddir'] . $img_file_name . "." . $allowedTypes[$mime];
 
     echo '<pre>';
     if (move_uploaded_file($file['tmp_name'], $uploadfile)) {
         echo "File is valid, and was successfully uploaded.\n";
     } else {
         echo "Possible file upload attack!\n";
+        echo 'Here is some more debugging info:';
+        print_r($_FILES);
     }
-
-    echo 'Here is some more debugging info:';
-    print_r($_FILES);
-
     print "</pre>";
 }
 
