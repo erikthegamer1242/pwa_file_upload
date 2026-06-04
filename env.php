@@ -14,4 +14,6 @@ $port = "53306";
 $username_db = "root";
 $password_db = "1234";
 $dbname = "pwa_upload_files";
+
+$page_cnt = 2;
 ?>
