@@ -18,23 +18,50 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             if ($idx >= $files_count) {
                 break;
             }
+
             $file = $files[$idx];
+
             echo '<div class="card m-3" style="width: 18rem;">
-                    <img src="' . $file['filepath'] . '" class="card-img-top" alt="' . $file['filename'] . '" height="150px" width="0px">
-                    <div class="card-body">
-                        <p class="card-text">' . $file['filename'] . '</p>
-                        <a style="font-size:80%" href="' . $doc_root . '/delete.php?id=' . $file['id'] . '" class="btn btn-danger p-1 float-end"><small>Delete image</small></a>
+            <img src="' . $file['filepath'] . '"
+                 class="card-img-top thumb"
+                 alt="' . $file['filename'] . '"
+                 height="150px"
+                 width="150px"
+                 style="cursor: pointer;"
+                 data-bs-toggle="modal"
+                 data-bs-target="#imageModal' . $file['id'] . '">
+
+            <div class="card-body">
+                <p class="card-text">' . $file['filename'] . '</p>
+                <a style="font-size:80%" href="' . $doc_root . '/delete.php?id=' . $file['id'] . '" class="btn btn-danger p-1 float-end"><small>Delete image</small></a>
+            </div>
+        </div>
+
+        <div class="modal fade" id="imageModal' . $file['id'] . '" tabindex="-1">
+            <div class="modal-dialog modal-fullscreen">
+                <div class="modal-content bg-dark">
+                    <div class="modal-header border-0">
+                        <button type="button" class="btn-close btn-close-white ms-auto" data-bs-dismiss="modal"></button>
                     </div>
-                    </div>';
+
+                    <div class="modal-body d-flex justify-content-center align-items-center">
+                        <img src="' . $file['filepath'] . '"
+                             alt="' . $file['filename'] . '"
+                             class="img-fluid"
+                             style="object-fit: contain;">
+                    </div>
+                </div>
+            </div>
+        </div>';
         }
         echo '</div>';
         if ($page_counts > 1) {
             echo '<ul class="pagination p-3">';
             for ($idx = 1; $idx < ($page_counts + 1); $idx++) {
                 if ($idx - 1 == $current_page) {
-                echo '<li class="page-item"><a class="page-link active" href="' . $doc_root . '/home.php?page=' . $idx . '"> ' . $idx . '</a></li>';
+                    echo '<li class="page-item"><a class="page-link active" href="' . $doc_root . '/home.php?page=' . $idx . '"> ' . $idx . '</a></li>';
                 } else {
-                echo '<li class="page-item"><a class="page-link" href="' . $doc_root . '/home.php?page=' . $idx . '"> ' . $idx . '</a></li>';
+                    echo '<li class="page-item"><a class="page-link" href="' . $doc_root . '/home.php?page=' . $idx . '"> ' . $idx . '</a></li>';
                 }
             }
 
