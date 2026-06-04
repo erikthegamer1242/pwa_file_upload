@@ -11,8 +11,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $stmt = $conn->prepare($sql);
         $stmt->execute();
         $files = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        $files_count = $stmt->rowCount();
-        $page_counts = round($files_count / $page_cnt, 0);
+        $files_count = count($files);
+        $page_counts = (int) ceil($files_count / $page_cnt);
         echo '<div class="container text-center image-grid p-3">';
         for ($idx = $current_page * $page_cnt; $idx < ($current_page + 1) * $page_cnt; $idx++) {
             if ($idx >= $files_count) {
