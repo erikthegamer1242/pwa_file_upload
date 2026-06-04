@@ -1,5 +1,6 @@
 <?php
 require_once("header.php");
+require_once("env.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     echo "<h1>Add new image to the server</h1>";
@@ -35,12 +36,24 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     echo '<pre>';
     if (move_uploaded_file($file['tmp_name'], $uploadfile)) {
         echo "File is valid, and was successfully uploaded.\n";
+        echo "<a href='$doc_root/home.php'>Go home</a>";
     } else {
         echo "Possible file upload attack!\n";
         echo 'Here is some more debugging info:';
         print_r($_FILES);
     }
     print "</pre>";
+
+    try {
+        $conn = new PDO("mysql:host=$servername;port=$port;dbname=$dbname", $username_db, $password_db);
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "INSERT INTO files VALUES (NULL, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([$img_name, $uploadfile]);
+    } catch (PDOException $e) {
+        echo "Connection failed: " . $e->getMessage();
+        return;
+    }
 }
 
 require_once("footer.php");
