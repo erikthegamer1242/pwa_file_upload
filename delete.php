@@ -22,6 +22,7 @@ try {
     }
 
     $filepath = $file['filepath'];
+    $filename = $file['filename'];
 
     if (!unlink($filepath)) {
         die("Error deleting: $filepath");
@@ -37,5 +38,8 @@ try {
     echo "Connection failed: " . $e->getMessage();
     return;
 }
+
+echo "Deleted succesfully: $filename";
+echo "<br><a href='$doc_root/home.php'>Go home</a>";
 
 require_once("footer.php");

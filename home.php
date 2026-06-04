@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $stmt->execute();
         $files = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $files_count = $stmt->rowCount();
-        $page_counts = intdiv($files_count, $page_cnt) + 1;
+        $page_counts = round($files_count / $page_cnt, 0);
         echo '<div class="container text-center image-grid p-3">';
         for ($idx = $current_page * $page_cnt; $idx < ($current_page + 1) * $page_cnt; $idx++) {
             if ($idx >= $files_count) {
@@ -31,7 +31,11 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         if ($page_counts > 1) {
             echo '<ul class="pagination p-3">';
             for ($idx = 1; $idx < ($page_counts + 1); $idx++) {
+                if ($idx - 1 == $current_page) {
+                echo '<li class="page-item"><a class="page-link active" href="' . $doc_root . '/home.php?page=' . $idx . '"> ' . $idx . '</a></li>';
+                } else {
                 echo '<li class="page-item"><a class="page-link" href="' . $doc_root . '/home.php?page=' . $idx . '"> ' . $idx . '</a></li>';
+                }
             }
 
             echo '</li>
